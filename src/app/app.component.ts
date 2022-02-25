@@ -1,39 +1,43 @@
 import { Component } from '@angular/core';
-import { XYZRepositoryService } from './repositories/XYZ.repository.service';
-import { ABCRepositoryService } from './repositories/ABC.repository.service';
+import { XYZFacadeService } from './facades/XYZ.facade.service';
+import { ABCFacadeService } from './facades/ABC.facade.service';
 import { resetStore } from './store';
-import { from } from 'rxjs';
+import { delay, from, of, take } from 'rxjs';
 import { useTapEffects } from './store';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'learn-store';
-  constructor(public abcRepo:ABCRepositoryService,public xyzRepo:XYZRepositoryService){
-  
+  text=''
+  constructor(
+    public abcFacade: ABCFacadeService,
+    public xyzFacade: XYZFacadeService
+  ) {}
+
+  updateData(e: any) {
+    this.text = e.target.value;
+    this.abcFacade.updateLists(this.text);
+    this.abcFacade.updateLists2(this.text);
+    
   }
 
-  updateData(e:any){
-    this.abcRepo.updateLists(e.target.value)
-    this.abcRepo.updateLists2(e.target.value)
-
-  }
-  
-  ngOnInit(){
-
-      setTimeout(() => {
-        this.abcRepo.concept = [1,2,4]
-      }, 3000);
+  clearFields(){
+    return of(true).pipe(delay(500),take(1)).subscribe(d=>{
+      this.text = ''
+    })
   }
 
-
-  ngOnDestroy(){
+  ngOnInit() {
+    setTimeout(() => {
+      this.xyzFacade.concept = Array(10)
+        .fill(0)
+        .map((i, inc) => inc);
+    }, 10 * 1000);
   }
 
-
-
-  
+  ngOnDestroy() {}
 }

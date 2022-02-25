@@ -1,8 +1,10 @@
-<input type="text" (change)="updateData($event)">
+<input type="text" (change)="updateData($event);clearFields();" [value]="text">
 <ul>
-    <li>{{abcRepo.lists$ | async |json}}</li>
+    <li *ngFor="let item of (abcFacade.lists$ | async)">
+        {{item}}
+    </li>
 </ul>
 
 <pre>
-    {{xyzRepo.dashboard$ | async | json}}
+    {{xyzFacade.dashboard$ | async | json}}
 </pre>

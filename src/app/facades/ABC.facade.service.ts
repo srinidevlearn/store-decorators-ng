@@ -31,7 +31,7 @@ export namespace Action {
 })
 @StoreConfig({ storeName: 'abc' })
 @Store()
-export class ABCRepositoryService {
+export class ABCFacadeService {
   @Query({ storeName: 'abc', select: 'data1.config' })
   abc$!: Observable<any>;
 
@@ -40,6 +40,7 @@ export class ABCRepositoryService {
 
   @Query({ storeName: 'abc', select: 'list' })
   lists$!: Observable<any>;
+
 
   @Query({ storeName: 'abc', select: 'data1.config2' })
   dashboard$!: Observable<any>;
@@ -80,12 +81,7 @@ export class ABCRepositoryService {
   data1 = { config: { dashboard: { tile: 'name' } } };
 
 
-  @setStateByProp({
-    storeName: 'abc',
-    key: 'data3',
-    // action: Action.insertData2,
-  })
-  concept:any=[]
+
 
   @setStateByProp({
     storeName: 'abc',
@@ -110,7 +106,6 @@ export class ABCRepositoryService {
   @setStateByMethod({
     storeName: 'abc',
     key: 'list2',
-    concat:true,
     action: Action.insertListString,
   })
   updateLists2(list: string) {
